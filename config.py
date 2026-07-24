@@ -2,12 +2,11 @@
 
 DB_CONFIG = (
     "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=localhost\\MSSQLSERVER01;"
+    "SERVER=MSI\\SQL2022;"
     "DATABASE=finalcase;"
     "Trusted_Connection=yes;"
     "TrustServerCertificate=yes;"
 )
-
 
 HEADERS = {
     "User-Agent": (
@@ -17,55 +16,33 @@ HEADERS = {
     )
 }
 
-
 SAYFALAR = [
     {
         "category": "Genel Trend Özeti",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/genel-trend-ozeti"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/genel-trend-ozeti"
     },
     {
         "category": "Son Bilançolar",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/son-bilancolar"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/son-bilancolar"
     },
     {
         "category": "Halka Arzlar",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/halka-arzlar"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/halka-arzlar"
     },
     {
         "category": "Sektörel Görünüm",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/sektorel-gorunum"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/sektorel-gorunum"
     },
     {
         "category": "Teknik Görünüm",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/teknik"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik"
     },
     {
         "category": "Orta Vadeli Takip Listesi",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/orta-vadeli-takip-listesi"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/orta-vadeli-takip-listesi"
     },
     {
         "category": "Kısa Yorum / Haftalık Not",
-        "url": (
-            "https://qa.ekofin.net/yeni-tasarim/"
-            "piyasa-gorunumu/kisa-yorum-haftalik-not"
-        )
+        "url": "https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/kisa-yorum-haftalik-not"
     }
 ]

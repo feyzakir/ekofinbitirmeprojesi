@@ -1,0 +1,72 @@
+"""
+llm.py
+
+LLM katmanı
+
+Hybrid Search -> Prompt -> GPT
+"""
+
+import os
+
+from dotenv import load_dotenv
+from openai import OpenAI
+
+from rag.hybrid_search import hybrid_search
+from rag.embedding_service import embeddingleri_yukle
+from rag.prompt import build_prompt
+
+
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY")
+)
+
+MODEL = "gpt-4.1-mini"
+
+
+def cevap_uret(soru, top_k=3):
+    """
+    Kullanıcı sorusuna cevap üretir.
+    """
+
+    arama_sonuclari = hybrid_search(soru)
+
+    embeddings = embeddingleri_yukle()
+
+    pages = []
+
+    for sonuc in arama_sonuclari[:top_k]:
+
+        pid = sonuc["id"]
+
+        if pid in embeddings:
+            pages.append(embeddings[pid])
+
+    system_prompt, user_prompt = build_prompt(
+        soru,
+        pages
+    )
+
+    response = client.chat.completions.create(
+
+        model=MODEL,
+
+        temperature=0.2,
+
+        messages=[
+
+            {
+                "role": "system",
+                "content": system_prompt
+            },
+
+            {
+                "role": "user",
+                "content": user_prompt
+            }
+
+        ]
+    )
+
+    return response.choices[0].message.content

@@ -1,0 +1,121 @@
+================================================================================
+SORU 1
+BIST100 RSI kaç?
+
+CEVAP
+BIST100 RSI değeri 43,7 olarak belirtilmiştir ve bu değer "Nötr Bölge (40–60)" aralığındadır.
+
+Özet:
+- RSI14 değeri: 43,7
+- RSI durumu: Nötr Bölge (40–60)
+
+Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
+
+================================================================================
+SORU 2
+MACD sinyali ne durumda?
+
+CEVAP
+MACD sinyali durumu:
+
+1. MACD sinyali negatif.
+2. Histogram düşüş eğiliminde.
+
+Detay: Bu durum, kısa vadede satış baskısının arttığını ve momentumun zayıfladığını göstermektedir.
+
+Kaynak: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
+
+================================================================================
+SORU 3
+Bollinger Bant göstergesi ne söylüyor?
+
+CEVAP
+Bollinger Bant göstergesi ile ilgili teknik görünüm şu şekildedir:
+
+1. Fiyat, Bollinger Bantlarının orta bandında yer almaktadır.
+2. Bantlarda sıkışma bölgesi gözlemlenmektedir, bu durum volatilitenin düşük olduğunu ve potansiyel bir hareketin habercisi olabilir.
+3. Diğer teknik göstergelerle birlikte değerlendirildiğinde; RSI nötr bölgede (43,7), MACD negatif sinyal vermekte ve SMA50 üzerinde fiyatın altında seyretmesi aşağı yönlü baskıyı desteklemektedir.
+
+Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
+
+================================================================================
+SORU 4
+Son halka arzlar hangileri?
+
+CEVAP
+- Şu anda güncel veya son halka arz bulunmamaktadır.
+- Halka arzlar ile ilgili listelenecek herhangi bir kart veya bilgi mevcut değildir.
+
+Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/halka-arzlar
+
+================================================================================
+SORU 5
+Hangi sektörler güçlü görünüyor?
+
+CEVAP
+Güçlü görünen sektörler:
+
+1. Hukuk ve Muhasebe Faaliyetleri: Seçili dönemde alımlar öne çıkmakta, %9,98 artış göstermiştir.
+2. Seyahat Acentesi, Tur Operatörü: Benzer şekilde alımlar öne çıkmakta, %9,93 artış kaydetmiştir.
+3. Orta vadede analistlerin "Güçlü Al" önerisi verdiği sektörler arasında:
+   - Yiyecek ve İçecek Hizmetleri
+   - Taş ve Toprağa Dayalı
+   - Varlık Yönetim Şirketleri
+   - Perakende Ticaret
+   - Kimya, İlaç, Petrol, Lastik ve Plastik
+   - Bilişim
+   - Gıda, İçecek ve Tütün
+   - Holdingler ve Yatırım Şirketleri
+   - İnsan Sağlığı ve Sosyal Hizmetler
+   - Metal Eşya Makine Elektrikli Cihaz Ulaşım Araçları
+   - Tekstil, Giyim Eşyası ve Deri
+   - İnşaat ve Bayındırlık İşleri
+
+Not: Orta vadeli takip listesinde bu sektörlerdeki hisseler yüksek potansiyel getiri ve olumlu analist önerileri almaktadır.
+
+Kaynaklar:  
+https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/sektorel-gorunum  
+https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/orta-vadeli-takip-listesi
+
+================================================================================
+SORU 6
+Orta vadeli takip listesinde hangi hisseler var?
+
+CEVAP
+Orta vadeli takip listesinde yer alan bazı hisseler şunlardır:
+
+1. BIGCH (Yiyecek ve İçecek Hizmetleri) - Güçlü Al
+2. KLKIM (Taş ve Toprağa Dayalı) - Güçlü Al
+3. GLCVY (Varlık Yönetim Şirketleri) - Güçlü Al
+4. TKNSA (Perakende Ticaret) - Güçlü Al
+5. ISFIN (Finansal Kiralama ve Faktoring Şirketleri) - Tut / Nötr
+6. GEDZA (Kimya, İlaç, Petrol, Lastik ve Plastik) - Güçlü Al
+7. HTTBT (Bilişim) - Güçlü Al
+8. ULKER (Gıda, İçecek ve Tütün) - Güçlü Al
+9. KOTON (Perakende Ticaret) - Güçlü Al
+10. SAHOL (Holdingler ve Yatırım Şirketleri) - Güçlü Al
+11. LKMNH (İnsan Sağlığı ve Sosyal Hizmetler) - Güçlü Al
+12. FROTO (Metal Eşya Makine Elektrikli Cihaz Ulaşım Araçları) - Güçlü Al
+13. YATAS (Tekstil, Giyim Eşyası ve Deri) - Güçlü Al
+14. OTKAR (Metal Eşya Makine Elektrikli Cihaz Ulaşım Araçları) - Al
+15. GLRMK (İnşaat ve Bayındırlık İşleri) - Güçlü Al
+
+Detaylı liste ve bilgiler için:  
+https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/orta-vadeli-takip-listesi
+
+================================================================================
+SORU 7
+Piyasanın genel görünümü nasıl?
+
+CEVAP
+Piyasanın genel görünümü:
+
+1. BIST 100 endeksi 14.034,08 seviyesinde bulunuyor.
+2. Piyasa genelinde boğa eğilimi hakim, ortalama getiri pozitif ve görünüm yukarı yönlü ancak hareketler seçici ilerliyor.
+3. Yabancı yatırımcı oranı %21,4 seviyesinde.
+4. Makro göstergeler: Enflasyon %32,1, politika faizi %37, USD/TRY kuru 47,06, Brent petrol 73,62 USD/varil, VIX endeksi 17,4 ile normal bölgede yükseliyor.
+5. Teknik göstergeler: RSI 43,7 ile nötr bölgede, MACD negatif sinyal veriyor, fiyat SMA50'nin altında ve Bollinger bantlarında sıkışma gözleniyor.
+6. Destek seviyeleri: 13.936,16 - 13.781,60 - 13.652,69; Direnç seviyeleri: 14.219,63 - 14.348,54 - 14.503,10.
+
+Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/genel-trend-ozeti
+

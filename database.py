@@ -5,24 +5,26 @@ import pyodbc
 from config import DB_CONFIG
 
 
+# ==========================================================
+# BAĞLANTI
+# ==========================================================
+
 def baglanti_olustur():
     """
     config.py dosyasındaki bağlantı bilgilerini kullanarak
     SQL Server bağlantısı oluşturur.
-
-    Dönüş değeri:
-        pyodbc.Connection
     """
 
     return pyodbc.connect(DB_CONFIG)
 
 
+# ==========================================================
+# SCRAPER TARAFI (ELİF)
+# ==========================================================
+
 def sayfa_var_mi(baglanti, url):
     """
-    Verilen URL'nin Pages tablosunda bulunup bulunmadığını kontrol eder.
-
-    Böylece program tekrar çalıştırıldığında aynı sayfa için
-    yeni bir kayıt oluşturulmaz. Mevcut kayıt güncellenir.
+    URL veritabanında mevcut mu?
     """
 
     cursor = baglanti.cursor()
@@ -57,12 +59,13 @@ def sayfa_ekle(
     keywords
 ):
     """
-    Pages tablosuna yeni bir sayfa kaydı ekler.
+    Yeni sayfa ekler.
     """
 
     cursor = baglanti.cursor()
 
     try:
+
         cursor.execute(
             """
             INSERT INTO dbo.Pages
@@ -92,10 +95,12 @@ def sayfa_ekle(
         baglanti.commit()
 
     except Exception:
+
         baglanti.rollback()
         raise
 
     finally:
+
         cursor.close()
 
 
@@ -108,24 +113,22 @@ def sayfa_guncelle(
     keywords
 ):
     """
-    URL'ye ait mevcut Pages kaydını günceller.
-
-    Scraping işlemi tekrar çalıştırıldığında güncel veriler
-    aynı kayıt üzerine yazılır.
+    Mevcut sayfayı günceller.
     """
 
     cursor = baglanti.cursor()
 
     try:
+
         cursor.execute(
             """
             UPDATE dbo.Pages
             SET
-                Title = ?,
-                Content = ?,
-                Category = ?,
-                Keywords = ?
-            WHERE Url = ?
+                Title=?,
+                Content=?,
+                Category=?,
+                Keywords=?
+            WHERE Url=?
             """,
             title,
             content,
@@ -137,8 +140,239 @@ def sayfa_guncelle(
         baglanti.commit()
 
     except Exception:
+
         baglanti.rollback()
         raise
 
     finally:
+
         cursor.close()
+
+
+# ==========================================================
+# KİŞİ 2 (RAG)
+# ==========================================================
+
+def tum_sayfalari_getir():
+    """
+    RAG sistemi için bütün sayfaları getirir.
+
+    Dönüş:
+        [
+            {
+                "id": ...,
+                "title": ...,
+                "url": ...,
+                "content": ...,
+                "category": ...,
+                "keywords": ...
+            }
+        ]
+    """
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT
+                Id,
+                Title,
+                Url,
+                Content,
+                Category,
+                Keywords
+            FROM dbo.Pages
+            ORDER BY Id
+            """
+        )
+
+        kolonlar = [
+            kolon[0].lower()
+            for kolon in cursor.description
+        ]
+
+        sonuc = []
+
+        for satir in cursor.fetchall():
+
+            sonuc.append(
+                dict(
+                    zip(
+                        kolonlar,
+                        satir
+                    )
+                )
+            )
+
+        return sonuc
+
+    finally:
+
+        cursor.close()
+        baglanti.close()
+
+
+def sayfa_getir(page_id):
+    """
+    Id'ye göre tek sayfa döndürür.
+    """
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT
+                Id,
+                Title,
+                Url,
+                Content,
+                Category,
+                Keywords
+            FROM dbo.Pages
+            WHERE Id=?
+            """,
+            page_id
+        )
+
+        satir = cursor.fetchone()
+
+        if satir is None:
+            return None
+
+        kolonlar = [
+            kolon[0].lower()
+            for kolon in cursor.description
+        ]
+
+        return dict(
+            zip(
+                kolonlar,
+                satir
+            )
+        )
+
+    finally:
+
+        cursor.close()
+        baglanti.close()
+
+
+def kategoriye_gore_getir(kategori):
+    """
+    Kategoriye ait sayfaları döndürür.
+    """
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT
+                Id,
+                Title,
+                Url,
+                Content,
+                Category,
+                Keywords
+            FROM dbo.Pages
+            WHERE Category=?
+            """,
+            kategori
+        )
+
+        kolonlar = [
+            kolon[0].lower()
+            for kolon in cursor.description
+        ]
+
+        sonuc = []
+
+        for satir in cursor.fetchall():
+
+            sonuc.append(
+                dict(
+                    zip(
+                        kolonlar,
+                        satir
+                    )
+                )
+            )
+
+        return sonuc
+
+    finally:
+
+        cursor.close()
+        baglanti.close()
+
+
+def keyword_ara(keyword):
+    """
+    Basit SQL araması.
+
+    Hybrid Search içinde kullanılacak.
+    """
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        arama = f"%{keyword}%"
+
+        cursor.execute(
+            """
+            SELECT
+                Id,
+                Title,
+                Url,
+                Content,
+                Category,
+                Keywords
+            FROM dbo.Pages
+            WHERE
+                Title LIKE ?
+                OR Keywords LIKE ?
+                OR Content LIKE ?
+            """,
+            arama,
+            arama,
+            arama
+        )
+
+        kolonlar = [
+            kolon[0].lower()
+            for kolon in cursor.description
+        ]
+
+        sonuc = []
+
+        for satir in cursor.fetchall():
+
+            sonuc.append(
+                dict(
+                    zip(
+                        kolonlar,
+                        satir
+                    )
+                )
+            )
+
+        return sonuc
+
+    finally:
+
+        cursor.close()
+        baglanti.close()
