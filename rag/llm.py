@@ -23,7 +23,7 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-MODEL = "gpt-4.1"
+MODEL = "gpt-5-nano"
 
 
 def cevap_uret(session_id, soru, top_k=3):
@@ -53,7 +53,6 @@ def cevap_uret(session_id, soru, top_k=3):
 
         model=MODEL,
 
-        temperature=0.2,
 
         messages=[
             {
