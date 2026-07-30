@@ -1,10 +1,9 @@
 # database.py
-
 import pyodbc
-
+import uuid
+import json
 from config import DB_CONFIG
-
-
+APPLICATION_NAME = "Ekofin"
 # ==========================================================
 # BAĞLANTI
 # ==========================================================
@@ -21,11 +20,82 @@ def baglanti_olustur():
 # ==========================================================
 # SCRAPER TARAFI (ELİF)
 # ==========================================================
+def tum_sayfalari_getir(baglanti):
+    """
+    Scraper için seçili uygulamaya ait tüm sayfaları getirir.
+    """
+
+    application_id = application_id_getir(baglanti)
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT
+                Title,
+                Url,
+                Category
+            FROM dbo.Pages
+            WHERE ApplicationId = ?
+            ORDER BY Id
+            """,
+            application_id
+        )
+
+        sonuc = []
+
+        for row in cursor.fetchall():
+
+            sonuc.append(
+                {
+                    "title": row.Title,
+                    "category": row.Category,
+                    "url": row.Url
+                }
+            )
+
+        return sonuc
+
+    finally:
+
+        cursor.close()
+def application_id_getir(baglanti):
+    """
+    ApplicationName'den ApplicationId döndürür.
+    """
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        cursor.execute(
+            """
+            SELECT Id
+            FROM dbo.Applications
+            WHERE ApplicationName = ?
+            """,
+            APPLICATION_NAME
+        )
+
+        sonuc = cursor.fetchone()
+
+        if sonuc is None:
+            raise Exception(f"{APPLICATION_NAME} bulunamadı.")
+
+        return sonuc[0]
+
+    finally:
+
+        cursor.close()
+
 
 def sayfa_var_mi(baglanti, url):
     """
     URL veritabanında mevcut mu?
     """
+    application_id = application_id_getir(baglanti)
 
     cursor = baglanti.cursor()
 
@@ -34,8 +104,11 @@ def sayfa_var_mi(baglanti, url):
             """
             SELECT COUNT(*)
             FROM dbo.Pages
-            WHERE Url = ?
+            WHERE
+                ApplicationId=?
+                AND Url=?
             """,
+            application_id,
             url
         )
 
@@ -62,6 +135,8 @@ def sayfa_ekle(
     Yeni sayfa ekler.
     """
 
+    application_id = application_id_getir(baglanti)
+
     cursor = baglanti.cursor()
 
     try:
@@ -70,6 +145,7 @@ def sayfa_ekle(
             """
             INSERT INTO dbo.Pages
             (
+                ApplicationId,
                 Title,
                 Url,
                 Content,
@@ -82,9 +158,11 @@ def sayfa_ekle(
                 ?,
                 ?,
                 ?,
+                ?,
                 ?
             )
             """,
+            application_id,
             title,
             url,
             content,
@@ -103,7 +181,6 @@ def sayfa_ekle(
 
         cursor.close()
 
-
 def sayfa_guncelle(
     baglanti,
     url,
@@ -115,6 +192,8 @@ def sayfa_guncelle(
     """
     Mevcut sayfayı günceller.
     """
+
+    application_id = application_id_getir(baglanti)
 
     cursor = baglanti.cursor()
 
@@ -128,12 +207,15 @@ def sayfa_guncelle(
                 Content=?,
                 Category=?,
                 Keywords=?
-            WHERE Url=?
+            WHERE
+                ApplicationId=?
+                AND Url=?
             """,
             title,
             content,
             category,
             keywords,
+            application_id,
             url
         )
 
@@ -148,19 +230,19 @@ def sayfa_guncelle(
 
         cursor.close()
 
-
 # ==========================================================
 # KİŞİ 2 (RAG)
 # ==========================================================
 
-def tum_sayfalari_getir():
+def tum_sayfalari_getir_rag():
     """
-    RAG sistemi için bütün sayfaları getirir.
+    RAG sistemi için seçili uygulamaya ait bütün sayfaları getirir.
 
     Dönüş:
         [
             {
                 "id": ...,
+                "applicationname": ...,
                 "title": ...,
                 "url": ...,
                 "content": ...,
@@ -179,15 +261,20 @@ def tum_sayfalari_getir():
         cursor.execute(
             """
             SELECT
-                Id,
-                Title,
-                Url,
-                Content,
-                Category,
-                Keywords
-            FROM dbo.Pages
-            ORDER BY Id
-            """
+                p.Id,
+                a.ApplicationName,
+                p.Title,
+                p.Url,
+                p.Content,
+                p.Category,
+                p.Keywords
+            FROM dbo.Pages p
+            INNER JOIN dbo.Applications a
+                ON p.ApplicationId = a.Id
+            WHERE a.ApplicationName = ?
+            ORDER BY p.Id
+            """,
+            APPLICATION_NAME
         )
 
         kolonlar = [
@@ -215,10 +302,9 @@ def tum_sayfalari_getir():
         cursor.close()
         baglanti.close()
 
-
 def sayfa_getir(page_id):
     """
-    Id'ye göre tek sayfa döndürür.
+    Id'ye göre seçili uygulamaya ait tek sayfayı döndürür.
     """
 
     baglanti = baglanti_olustur()
@@ -230,15 +316,21 @@ def sayfa_getir(page_id):
         cursor.execute(
             """
             SELECT
-                Id,
-                Title,
-                Url,
-                Content,
-                Category,
-                Keywords
-            FROM dbo.Pages
-            WHERE Id=?
+                p.Id,
+                a.ApplicationName,
+                p.Title,
+                p.Url,
+                p.Content,
+                p.Category,
+                p.Keywords
+            FROM dbo.Pages p
+            INNER JOIN dbo.Applications a
+                ON p.ApplicationId = a.Id
+            WHERE
+                a.ApplicationName = ?
+                AND p.Id = ?
             """,
+            APPLICATION_NAME,
             page_id
         )
 
@@ -264,10 +356,9 @@ def sayfa_getir(page_id):
         cursor.close()
         baglanti.close()
 
-
 def kategoriye_gore_getir(kategori):
     """
-    Kategoriye ait sayfaları döndürür.
+    Seçili uygulamada belirtilen kategoriye ait sayfaları döndürür.
     """
 
     baglanti = baglanti_olustur()
@@ -279,15 +370,22 @@ def kategoriye_gore_getir(kategori):
         cursor.execute(
             """
             SELECT
-                Id,
-                Title,
-                Url,
-                Content,
-                Category,
-                Keywords
-            FROM dbo.Pages
-            WHERE Category=?
+                p.Id,
+                a.ApplicationName,
+                p.Title,
+                p.Url,
+                p.Content,
+                p.Category,
+                p.Keywords
+            FROM dbo.Pages p
+            INNER JOIN dbo.Applications a
+                ON p.ApplicationId = a.Id
+            WHERE
+                a.ApplicationName = ?
+                AND p.Category = ?
+            ORDER BY p.Id
             """,
+            APPLICATION_NAME,
             kategori
         )
 
@@ -316,7 +414,6 @@ def kategoriye_gore_getir(kategori):
         cursor.close()
         baglanti.close()
 
-
 def keyword_ara(keyword):
     """
     Basit SQL araması.
@@ -335,18 +432,27 @@ def keyword_ara(keyword):
         cursor.execute(
             """
             SELECT
-                Id,
-                Title,
-                Url,
-                Content,
-                Category,
-                Keywords
-            FROM dbo.Pages
+                p.Id,
+                a.ApplicationName,
+                p.Title,
+                p.Url,
+                p.Content,
+                p.Category,
+                p.Keywords
+            FROM dbo.Pages p
+            INNER JOIN dbo.Applications a
+                ON p.ApplicationId = a.Id
             WHERE
-                Title LIKE ?
-                OR Keywords LIKE ?
-                OR Content LIKE ?
+                a.ApplicationName = ?
+                AND
+                (
+                    p.Title LIKE ?
+                    OR p.Keywords LIKE ?
+                    OR p.Content LIKE ?
+                )
+            ORDER BY p.Id
             """,
+            APPLICATION_NAME,
             arama,
             arama,
             arama
@@ -369,6 +475,167 @@ def keyword_ara(keyword):
                     )
                 )
             )
+
+        return sonuc
+
+    finally:
+
+        cursor.close()
+        baglanti.close()
+
+def yeni_session(user_id=None, title="Yeni Sohbet"):
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    session_id = str(uuid.uuid4())
+
+    cursor.execute("""
+
+        INSERT INTO ChatSessions
+        (SessionId, UserId, Title)
+
+        VALUES (?, ?, ?)
+
+    """, session_id, user_id, title)
+
+    baglanti.commit()
+
+    baglanti.close()
+
+    return session_id
+def mesaj_ekle(session_id, role, message):
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    cursor.execute("""
+
+        INSERT INTO ChatMessages
+        (SessionId, Role, Message)
+
+        VALUES (?, ?, ?)
+
+    """, session_id, role, message)
+
+    baglanti.commit()
+
+    baglanti.close()
+def mesajlari_getir(session_id, limit=10):
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    cursor.execute("""
+
+        SELECT TOP (?)
+            Role,
+            Message,
+            CreatedAt
+
+        FROM ChatMessages
+
+        WHERE SessionId=?
+
+        ORDER BY Id DESC
+
+    """, limit, session_id)
+
+    rows = cursor.fetchall()
+
+    baglanti.close()
+
+    rows = rows[::-1]
+
+    sonuc = []
+
+    for row in rows:
+
+        sonuc.append({
+
+            "role": row.Role,
+
+            "message": row.Message,
+
+            "created_at": row.CreatedAt
+
+        })
+
+    return sonuc
+def sessionlari_getir():
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    cursor.execute("""
+
+        SELECT
+            SessionId,
+            Title,
+            CreatedAt
+
+        FROM ChatSessions
+
+        ORDER BY UpdatedAt DESC
+
+    """)
+
+    rows = cursor.fetchall()
+
+    baglanti.close()
+
+    sonuc = []
+
+    for row in rows:
+
+        sonuc.append({
+
+            "session_id": row.SessionId,
+
+            "title": row.Title,
+
+            "created_at": row.CreatedAt
+
+        })
+
+    return sonuc
+def session_mesajlarini_getir(session_id):
+
+    baglanti = baglanti_olustur()
+
+    cursor = baglanti.cursor()
+
+    try:
+
+        cursor.execute("""
+
+            SELECT
+                Role,
+                Message
+
+            FROM ChatMessages
+
+            WHERE SessionId = ?
+
+            ORDER BY Id
+
+        """, session_id)
+
+        sonuc = []
+
+        for row in cursor.fetchall():
+
+            sonuc.append({
+
+                "role": row.Role,
+
+                "content": row.Message
+
+            })
 
         return sonuc
 

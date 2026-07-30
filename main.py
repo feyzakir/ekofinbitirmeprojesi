@@ -1,11 +1,11 @@
 # main.py
 
 import json
-
-from config import SAYFALAR
+ 
 
 from database import (
     baglanti_olustur,
+    tum_sayfalari_getir,
     sayfa_var_mi,
     sayfa_ekle,
     sayfa_guncelle
@@ -59,15 +59,20 @@ def main():
         )
         print("-" * 60)
 
+        sayfalar = tum_sayfalari_getir(baglanti)
+        print(f"Toplam {len(sayfalar)} sayfa bulundu.")
+        print("-" * 60)
+
         for sira, sayfa in enumerate(
-            SAYFALAR,
+            sayfalar,
             start=1
         ):
-            kategori = sayfa["category"]
+            kategori = sayfa["title"]
+            category = sayfa["category"]   
             url = sayfa["url"]
 
             print(
-                f"[{sira}/{len(SAYFALAR)}] "
+                f"[{sira}/{len(sayfalar)}] "
                 f"{kategori} işleniyor..."
             )
 
@@ -140,7 +145,7 @@ def main():
                     url=url,
                     title=kategori,
                     content=json_content,
-                    category=kategori,
+                    category=category,
                     keywords=keywords_sql
                 )
 
@@ -154,7 +159,7 @@ def main():
                     title=kategori,
                     url=url,
                     content=json_content,
-                    category=kategori,
+                    category=category,
                     keywords=keywords_sql
                 )
 

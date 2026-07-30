@@ -26,7 +26,7 @@ def sayfayi_parse_et(scrape_sonucu):
 
     return {
         "ham_metin": scrape_sonucu.get(
-            "gorunen_metin",
+            "raw_text",
             ""
         ),
         "period": scrape_sonucu.get(

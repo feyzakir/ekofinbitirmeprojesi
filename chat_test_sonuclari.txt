@@ -3,13 +3,13 @@ SORU 1
 BIST100 RSI kaç?
 
 CEVAP
-BIST100 RSI değeri 43,7 olarak belirtilmiştir ve bu değer "Nötr Bölge (40–60)" aralığındadır.
+BIST100 RSI değeri 43,7 olup, bu seviye Nötr Bölge (40–60) içinde yer almaktadır.
 
-Özet:
+Detaylar:
 - RSI14 değeri: 43,7
 - RSI durumu: Nötr Bölge (40–60)
 
-Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
+Kaynak: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
 
 ================================================================================
 SORU 2
@@ -19,31 +19,29 @@ CEVAP
 MACD sinyali durumu:
 
 1. MACD sinyali negatif.
-2. Histogram düşüş eğiliminde.
+2. Histogram düşüşte, bu da momentumun azaldığını gösteriyor.
 
-Detay: Bu durum, kısa vadede satış baskısının arttığını ve momentumun zayıfladığını göstermektedir.
-
-Kaynak: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
+Detay için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
 
 ================================================================================
 SORU 3
 Bollinger Bant göstergesi ne söylüyor?
 
 CEVAP
-Bollinger Bant göstergesi ile ilgili teknik görünüm şu şekildedir:
+Bollinger Bant göstergesi hakkında Teknik Görünüm kaynağına göre:
 
-1. Fiyat, Bollinger Bantlarının orta bandında yer almaktadır.
+1. Fiyat şu anda Bollinger Bantlarının orta bandında yer almaktadır.
 2. Bantlarda sıkışma bölgesi gözlemlenmektedir, bu durum volatilitenin düşük olduğunu ve potansiyel bir hareketin habercisi olabilir.
-3. Diğer teknik göstergelerle birlikte değerlendirildiğinde; RSI nötr bölgede (43,7), MACD negatif sinyal vermekte ve SMA50 üzerinde fiyatın altında seyretmesi aşağı yönlü baskıyı desteklemektedir.
+3. Diğer teknik göstergelerle birlikte değerlendirilmelidir; örneğin MACD negatif ve histogram düşüyor, SMA50 trendi aşağı yönlü ve fiyat SMA50'nin altında.
 
-Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
+Detaylar için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/teknik
 
 ================================================================================
 SORU 4
 Son halka arzlar hangileri?
 
 CEVAP
-- Şu anda güncel veya son halka arz bulunmamaktadır.
+- Şu anda piyasada güncel veya son halka arz bulunmamaktadır.
 - Halka arzlar ile ilgili listelenecek herhangi bir kart veya bilgi mevcut değildir.
 
 Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/halka-arzlar
@@ -55,9 +53,9 @@ Hangi sektörler güçlü görünüyor?
 CEVAP
 Güçlü görünen sektörler:
 
-1. Hukuk ve Muhasebe Faaliyetleri: Seçili dönemde alımlar öne çıkmakta, %9,98 artış göstermiştir.
-2. Seyahat Acentesi, Tur Operatörü: Benzer şekilde alımlar öne çıkmakta, %9,93 artış kaydetmiştir.
-3. Orta vadede analistlerin "Güçlü Al" önerisi verdiği sektörler arasında:
+1. Hukuk ve Muhasebe Faaliyetleri: Seçili dönemde alımlar öne çıkıyor, %9,98 artış.
+2. Seyahat Acentesi, Tur Operatörü: Seçili dönemde alımlar öne çıkıyor, %9,93 artış.
+3. Orta vadede analistlerin "Güçlü Al" önerisi verdiği sektörler:
    - Yiyecek ve İçecek Hizmetleri
    - Taş ve Toprağa Dayalı
    - Varlık Yönetim Şirketleri
@@ -71,10 +69,9 @@ Güçlü görünen sektörler:
    - Tekstil, Giyim Eşyası ve Deri
    - İnşaat ve Bayındırlık İşleri
 
-Not: Orta vadeli takip listesinde bu sektörlerdeki hisseler yüksek potansiyel getiri ve olumlu analist önerileri almaktadır.
+Not: Finansal tavsiye verilmemektedir.
 
-Kaynaklar:  
-https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/sektorel-gorunum  
+Detaylar için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/sektorel-gorunum  
 https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/orta-vadeli-takip-listesi
 
 ================================================================================
@@ -100,8 +97,9 @@ Orta vadeli takip listesinde yer alan bazı hisseler şunlardır:
 14. OTKAR (Metal Eşya Makine Elektrikli Cihaz Ulaşım Araçları) - Al
 15. GLRMK (İnşaat ve Bayındırlık İşleri) - Güçlü Al
 
-Detaylı liste ve bilgiler için:  
-https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/orta-vadeli-takip-listesi
+Detaylı liste ve hedef fiyatlar için ilgili sayfayı ziyaret edebilirsiniz.
+
+Kaynak: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/orta-vadeli-takip-listesi
 
 ================================================================================
 SORU 7
@@ -111,11 +109,11 @@ CEVAP
 Piyasanın genel görünümü:
 
 1. BIST 100 endeksi 14.034,08 seviyesinde bulunuyor.
-2. Piyasa genelinde boğa eğilimi hakim, ortalama getiri pozitif ve görünüm yukarı yönlü ancak hareketler seçici ilerliyor.
+2. Piyasa genelinde boğa eğilimi hakim, ortalama getiri pozitif ve görünüm yukarı yönlü ancak hareketler seçici.
 3. Yabancı yatırımcı oranı %21,4 seviyesinde.
-4. Makro göstergeler: Enflasyon %32,1, politika faizi %37, USD/TRY kuru 47,06, Brent petrol 73,62 USD/varil, VIX endeksi 17,4 ile normal bölgede yükseliyor.
-5. Teknik göstergeler: RSI 43,7 ile nötr bölgede, MACD negatif sinyal veriyor, fiyat SMA50'nin altında ve Bollinger bantlarında sıkışma gözleniyor.
-6. Destek seviyeleri: 13.936,16 - 13.781,60 - 13.652,69; Direnç seviyeleri: 14.219,63 - 14.348,54 - 14.503,10.
+4. Makro göstergeler: Enflasyon %32,1, politika faizi %37, USD/TRY 47,06, Brent petrol 73,62 USD, VIX 17,4 (normal bölgede yükselişte).
+5. Teknik olarak RSI 43,7 ile nötr bölgede, MACD negatif ve düşüşte, fiyat SMA50'nin altında ve Bollinger bantlarında sıkışma gözleniyor.
+6. Destek seviyeleri: 13.936,16 / 13.781,60 / 13.652,69; Direnç seviyeleri: 14.219,63 / 14.348,54 / 14.503,10.
 
 Detaylı bilgi için: https://qa.ekofin.net/yeni-tasarim/piyasa-gorunumu/genel-trend-ozeti
 

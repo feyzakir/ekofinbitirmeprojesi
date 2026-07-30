@@ -11,41 +11,57 @@ import pickle
 import hashlib
 from dotenv import load_dotenv
 from openai import OpenAI
-
-from database import tum_sayfalari_getir
-
+from database import (
+    tum_sayfalari_getir_rag,
+    APPLICATION_NAME
+)
 load_dotenv()
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 EMBEDDING_MODEL = "text-embedding-3-small"
 
-CACHE_PATH = "rag/embeddings.pkl"
+CACHE_PATH = f"rag/{APPLICATION_NAME.lower()}_embeddings.pkl"
 
 
 def metin_hash(text):
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
+import json
 
 def sayfa_metni(page):
-    """
-    Embedding üretilecek metin.
-    """
 
-    return f"""
-Başlık:
-{page['title']}
+    content = page["content"]
 
-Kategori:
-{page['category']}
+    try:
+        content = json.loads(content)
 
-Anahtar Kelimeler:
-{page['keywords']}
+        description = content.get("description","")
 
-İçerik:
-{page['content']}
+        features = "\n".join(
+            content.get("features",[])
+        )
+
+        content = f"""
+
+Açıklama
+{description}
+Özellikler
+{features}
 """
-
+    except:
+        pass
+    return f"""
+Uygulama
+{page["applicationname"]}
+Kategori
+{page["category"]}
+Başlık
+{page["title"]}
+Anahtar Kelimeler
+{page["keywords"]}
+{content}
+"""
 
 def embedding_olustur(text):
 
@@ -75,7 +91,7 @@ def cache_kaydet(cache):
 
 def embedding_index_olustur():
 
-    pages = tum_sayfalari_getir()
+    pages = tum_sayfalari_getir_rag()
 
     eski_cache = cache_yukle()
 

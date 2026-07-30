@@ -29,6 +29,20 @@ de.
 
 7. Cevabın sonunda ilgili sayfanın URL'sini yaz.
 """
+def history_to_prompt(messages):
+
+    if not messages:
+        return "Önceki konuşma bulunmuyor."
+
+    text = ""
+
+    for m in messages:
+
+        role = "Kullanıcı" if m["role"] == "user" else "Asistan"
+
+        text += f"{role}: {m['message']}\n"
+
+    return text
 
 
 def sayfa_context(page):
@@ -73,23 +87,32 @@ Anahtar Kelimeler:
 """
 
 
-def build_prompt(question, pages):
+def build_prompt(question, pages, history):
     """
     pages:
         database'den gelen ilk 3 kayıt
     """
 
     context = ""
-
+    history_text = history_to_prompt(history)
     for page in pages:
 
         context += sayfa_context(page)
 
     user_prompt = f"""
-Kullanıcı Sorusu:
+Önceki Konuşmalar:
+
+{history_text}
+
+
+----------------------------------------
+
+Kullanıcının Yeni Sorusu:
 
 {question}
 
+
+----------------------------------------
 
 Aşağıdaki bilgilerden yararlanarak cevap ver.
 
