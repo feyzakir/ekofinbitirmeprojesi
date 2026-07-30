@@ -5,7 +5,7 @@ LLM katmanı
 
 Hybrid Search -> Prompt -> GPT
 """
-
+from google import genai
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -23,7 +23,7 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-MODEL = "gpt-4.1-mini"
+MODEL = "gpt-4.1"
 
 
 def cevap_uret(session_id, soru, top_k=3):
