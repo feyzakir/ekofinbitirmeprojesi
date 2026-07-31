@@ -16,28 +16,20 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 JUDGE_MODEL = "gpt-5-nano"
 
 SYSTEM_PROMPT = """
-Sen bir cevap doğrulayıcısısın.
+Sen bir cevap doğrulayıcısısın. Cevaptaki her iddianın kaynaklarda
+desteklenip desteklenmediğini kontrol et.
 
-Görevin: Verilen "cevap" içindeki her iddianın "kaynaklar"
-tarafından desteklenip desteklenmediğini kontrol etmek.
+- Kaynakta yoksa/çelişiyorsa: grounded=false
+- "Bilgi bulunamadı" gibi red: grounded=true
+- Kısmi destek: grounded=true, düşük score
+- Score: 0.0-1.0
 
-Kurallar:
-- Cevap kaynaklarda yoksa veya çelişiyorsa: grounded=false
-- Cevap "Bilgi bulunamadı" gibi dürüst bir red ise: grounded=true
-- Kısmen destekleniyorsa: grounded=true ama score düşük olur
-- Skor 0.0 - 1.0 arası
-
-SADECE şu JSON formatında dön, başka hiçbir şey yazma:
-{
-  "grounded": true veya false,
-  "score": 0.0 ile 1.0 arası,
-  "gerekce": "kısa açıklama",
-  "desteklenmeyen_iddialar": ["...", "..."]
-}
+SADECE bu JSON'u dön, başka hiçbir şey yazma:
+{"grounded": true/false, "score": 0.0-1.0, "gerekce": "kısa", "desteklenmeyen_iddialar": []}
 """
 
 
-def _kaynaklari_formatla(pages, max_chars=3000):
+def _kaynaklari_formatla(pages, max_chars=1000):
     text = ""
     for i, p in enumerate(pages, 1):
         content = str(p.get("content", ""))[:max_chars]
