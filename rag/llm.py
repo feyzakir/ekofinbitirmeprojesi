@@ -1,11 +1,9 @@
-
-from rag.verifier import dogrula
 """
 llm.py
 
 LLM katmanı
 
-Hybrid Search -> Prompt -> GPT
+Hybrid Search -> Prompt -> GPT -> Doğrulama
 """
 from google import genai
 import os
@@ -71,8 +69,7 @@ def cevap_uret(session_id, soru, top_k=3):
 
     cevap = response.choices[0].message.content
 
-
- # --- Doğrulama katmanı ---
+    # --- Doğrulama katmanı ---
     dogrulama_sonucu = dogrula(soru, cevap, pages)
     print("[DOĞRULAMA]", dogrulama_sonucu)  # test için
 
@@ -95,6 +92,7 @@ def cevap_uret(session_id, soru, top_k=3):
             "Bu konuya ilişkin veritabanında güvenilir bilgi "
             "bulunamadı. Lütfen soruyu farklı ifade edin."
         )
+    # --- ---
 
     mesaj_ekle(
         session_id,
@@ -109,6 +107,3 @@ def cevap_uret(session_id, soru, top_k=3):
     )
 
     return cevap
-
-
-
