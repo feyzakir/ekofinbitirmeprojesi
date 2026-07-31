@@ -1,3 +1,5 @@
+
+from rag.verifier import dogrula
 """
 llm.py
 
@@ -12,6 +14,7 @@ from openai import OpenAI
 from rag.hybrid_search import hybrid_search
 from rag.embedding_service import embeddingleri_yukle
 from rag.prompt import build_prompt
+from rag.verifier import dogrula
 from database import (
     mesajlari_getir,
     mesaj_ekle
@@ -67,6 +70,31 @@ def cevap_uret(session_id, soru, top_k=3):
     )
 
     cevap = response.choices[0].message.content
+
+
+ # --- Doğrulama katmanı ---
+    dogrulama_sonucu = dogrula(soru, cevap, pages)
+    print("[DOĞRULAMA]", dogrulama_sonucu)  # test için
+
+    # Güvenli erişim - hatalı JSON gelmesine karşı
+    grounded = dogrulama_sonucu.get("grounded", False)
+    score = dogrulama_sonucu.get("score", 0.0)
+
+    # String gelirse boolean'a çevir
+    if isinstance(grounded, str):
+        grounded = grounded.lower() == "true"
+
+    # Score sayı değilse 0.0 kabul et
+    try:
+        score = float(score)
+    except (TypeError, ValueError):
+        score = 0.0
+
+    if not grounded or score < 0.6:
+        cevap = (
+            "Bu konuya ilişkin veritabanında güvenilir bilgi "
+            "bulunamadı. Lütfen soruyu farklı ifade edin."
+        )
 
     mesaj_ekle(
         session_id,
