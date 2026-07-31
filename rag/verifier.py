@@ -29,7 +29,7 @@ SADECE bu JSON'u dön, başka hiçbir şey yazma:
 """
 
 
-def _kaynaklari_formatla(pages, max_chars=1000):
+def _kaynaklari_formatla(pages, max_chars=2000):
     text = ""
     for i, p in enumerate(pages, 1):
         content = str(p.get("content", ""))[:max_chars]
